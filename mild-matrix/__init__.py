@@ -30,7 +30,6 @@
 
 # 1, 2 dimension matrix operation based on default list type
 
-from typing import List
 import collections
 from math import sin, cos, sqrt
 from random import random
@@ -152,11 +151,12 @@ def matrix2matrix(matrix1, matrix2):
 # Special matrices
 def __matrix(dim1, dim2, gen= lambda i, j : i+j, *args):
     pass
+
 def ones_matrix(dim1, dim2):
     return [[1]*dim2]*dim1
 def zeros_matrix(dim1, dim2):
     return [[0]*dim2]*dim1
-def rand_matrix(dim1:int, dim2:int, type="int", range=(0,10)):
+def rand_matrix(dim1:int, dim2:int, type="int", range=(0,10)): #Not Done
     # If we get 10x10 matrix, manually mapping  requires 100 time call but, 
     # what if we call 20=(10 x 10) random values and mutiplying them?
     # It is not enough to get randomness? 
@@ -243,15 +243,39 @@ def rotation_matrix_3dim_general(angle_x, angle_y=None, angle_z=None):
 # Matrix utils -general
 
 def get_blocked_matrix(matrices, fill=0):
+    # Must be all square
     for matrix in matrices:
-        pass
+        l = len(matrix)
+
 def expand_matrix(matrix, dim1, dim2, fill=0):
     pass
 def split_matrix(matrix, index, axis = 0):
     pass
 def join_matrices(matrix1, matrix2, axis=0):
-    pass
-        
+    if axis == 0:
+        matrix = matrix1 + matrix2
+    elif axis ==1:
+        matrix =[]
+        for i in range(0, len(matrix1)):
+            matrix.append(matrix1[i] + matrix2[i])
+    return matrix
+
+
+def sub_matrix(matrix, rows, columns):
+    ri, rf = rows
+    ci, cf = columns
+
+    rows_matrix = matrix[ri:rf]
+    result = []
+    for row in rows_matrix:
+        result.append(row[ci:cf])
+    return result
+def minor(matrix, i, j):
+    m_row = matrix[0:i] + matrix[i+1:]
+    result = []
+    for row in m_row:
+        result.append(row[0:j]+row[j+1:])
+    return result
 
 
 # Matrix utils - square
@@ -274,15 +298,29 @@ def get_trace(matrix):
     for i in range(0, len(matrix)):
         result += matrix[i][i]
     return result
-def get_determinant(matrix, type="g"):
-    pass
-def __determinant_gaussian(matrix):
-    pass
-def __determinant_gaussian_2dim(matrix):
+def get_det(matrix, method="g"):
+    if method == "g":
+        return __det_gaussian(matrix)
+    elif method == "t" or method == "i":
+        return __det_triangular(matrix)
+def __det_gaussian(matrix):
+    if len(matrix) ==2:
+        return __det_2dim(matrix)
+    elif len(matrix) == 3:
+        return __det_3dim(matrix)
+    else:
+        return __det_gaussian_ndim(matrix)
+def __det_2dim(matrix):
     return matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0]
-def __determinant_gaussian_3dim(matrix):
-    return matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0]
-def __determinant_triangular(matrix):
+def __det_3dim(matrix):
+    a, b, c = matrix[0][0], matrix[0][1], matrix[0][2]
+    A = minor(matrix, 0, 0)
+    B = minor(matrix, 0, 1)
+    C = minor(matrix, 0, 2)
+    return a*__det_2dim(A) - b*__det_2dim(B) + c* __det_2dim(C)
+def __det_gaussian_ndim(matrix):
+    return 
+def __det_triangular(matrix):
     diag = sum(get_diagonal(matrix, i=0))
     result =1.
     for dig in diag:
@@ -291,7 +329,6 @@ def __determinant_triangular(matrix):
 
 
 # Utils
-
 def split_list(list1d: list, n: int, mode="l") -> list:
     if not isinstance(list1d, collections.Iterable):
         raise TypeError("The given object is not an iterable object.")
@@ -330,11 +367,18 @@ def transpose(list2d: list) -> list:
             t[i].append(list2d[j][i])
     return t
 
-def filp(matrix: list) -> list:
+def flip(matrix: list, axis=0) -> list:
     size = len(matrix)
-    f = list()
-    for i in range(0, size):
-        f.append(matrix[size - i - 1])
+    if axis == 0:
+        f = list()
+        for i in range(0, size):
+            f.append(matrix[size - i - 1])
+    elif axis == 1:
+        matrix_t = transpose(matrix)
+        f = list()
+        for i in range(0, size):
+            f.append(matrix_t[size - i - 1])
+        f = transpose(f)
     return f
 
 def concatenate(matrix: list[list]) -> list:

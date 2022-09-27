@@ -1,0 +1,7 @@
+LICENSE
+README.md
+pyproject.toml
+mild_matrix.egg-info/PKG-INFO
+mild_matrix.egg-info/SOURCES.txt
+mild_matrix.egg-info/dependency_links.txt
+mild_matrix.egg-info/top_level.txt

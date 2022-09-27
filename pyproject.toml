@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mild-matrix"
+version = "0.0.1"
+authors = [
+  { name="Hyunseong Kim", email="qwqwhsnote@gm.gist.ac.kr" },
+]
+description = "Mild matrix and vector routines based on python list type."
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/HYUNSEONG-KIM/mild-matrix"
+"Bug Tracker" = "https://github.com/HYUNSEONG-KIM/mild-matrix/issues"
+
