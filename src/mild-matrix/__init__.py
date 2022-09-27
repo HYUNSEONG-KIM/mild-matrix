@@ -30,6 +30,7 @@
 
 # 1, 2 dimension matrix operation based on default list type
 
+from typing import List
 import collections
 from math import sin, cos, sqrt
 from random import random
@@ -148,7 +149,7 @@ def matrix2matrix(matrix1, matrix2):
     return transpose(result)
 
 
-# Special matrixes
+# Special matrices
 def __matrix(dim1, dim2, gen= lambda i, j : i+j, *args):
     pass
 def ones_matrix(dim1, dim2):
@@ -166,7 +167,40 @@ def rand_matrix(dim1:int, dim2:int, type="int", range=(0,10)):
             result[i][j] = random()
     return result
 
-# Special matrixes - Rotation
+def elementary_matrix_1(dim, i, j): # Row switching
+    matrix = identity_matrix(dim)
+    matrix[i][i] = 0
+    matrix[j][j] = 0
+    matrix[i][j] = 1
+    matrix[j][i] = 1
+    return matrix
+def elementary_matrix_2(dim, i, c): # Row  multiplying
+    matrix = identity_matrix(dim)
+    matrix[i][i] = c
+    return matrix
+def elementary_matrix_3(dim, i, j, c): # Row addiing with 
+    matrix = identity_matrix(dim)
+    matrix[i][j] = c
+    return matrix
+def identity_matrix(dim):
+    identity = zeros_matrix(dim,dim)
+    for i in range(0, dim):
+        identity[i][i] =1
+    return identity
+def exchange_matrix(dim):
+    identity = zeros_matrix(dim,dim)
+    for i in range(0, dim):
+        identity[i][dim-1-i] =1
+def permutation_matrix(permute:list):
+    dim = len(permute)
+    permutation_m = zeros_matrix(dim,dim)
+    for i in range(0, dim):
+        permutation_m[i][permute[i]-1] = 1
+    return permutation_m
+#def vandermonde_matrix(xlist, n): <- Is there an efficient algorithm for calculating repeated powers ?
+#    pass
+
+# Special matrices - Rotation
 def rotate_2dim(vec, angle):
     rotate_matrix = rotation_matrix_2dim(angle)
     return matrix2vec(rotate_matrix, vec)
@@ -206,30 +240,22 @@ def rotation_matrix_3dim_general(angle_x, angle_y=None, angle_z=None):
     return matrix2matrix(rm_z, matrix2matrix(rm_y, rm_x))
 
 
-def identity_matrix(dim):
-    identity = zeros_matrix(dim,dim)
-    for i in range(0, dim):
-        identity[i][i] =1
-    return identity
-def exchange_matrix(dim):
-    identity = zeros_matrix(dim,dim)
-    for i in range(0, dim):
-        identity[i][dim-1-i] =1
-def permutation_matrix(permute:list):
-    dim = len(permute)
-    permutation_m = zeros_matrix(dim,dim)
-    for i in range(0, dim):
-        permutation_m[i][permute[i]-1] = 1
-    return permutation_m
-#def vandermonde_matrix(xlist, n): <- Is there an efficient algorithm for calculating repeated powers ?
-#    pass
-
-
 # Matrix utils -general
+
+def get_blocked_matrix(matrices, fill=0):
+    for matrix in matrices:
+        pass
+def expand_matrix(matrix, dim1, dim2, fill=0):
+    pass
+def split_matrix(matrix, index, axis = 0):
+    pass
+def join_matrices(matrix1, matrix2, axis=0):
+    pass
+        
 
 
 # Matrix utils - square
-def get_diagonal(matrix, i:int = 0):
+def get_diagonal(matrix, i:int = 0, copy=False):
     if len(matrix) != len(matrix[0]):
         raise ValueError("Not a square matrix.")
     size = len(matrix)
@@ -248,9 +274,20 @@ def get_trace(matrix):
     for i in range(0, len(matrix)):
         result += matrix[i][i]
     return result
-def get_determinant(matrix):
+def get_determinant(matrix, type="g"):
     pass
-
+def __determinant_gaussian(matrix):
+    pass
+def __determinant_gaussian_2dim(matrix):
+    return matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0]
+def __determinant_gaussian_3dim(matrix):
+    return matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0]
+def __determinant_triangular(matrix):
+    diag = sum(get_diagonal(matrix, i=0))
+    result =1.
+    for dig in diag:
+        result *= dig
+    return result
 
 
 # Utils
