@@ -34,6 +34,8 @@ import collections
 from math import sin, cos, sqrt
 from random import random
 
+
+# Below-Old versions
 # Default operation - vector
 # basis routines
 def __vec_oper1(vec, oper=lambda i, vi: vi, *args):

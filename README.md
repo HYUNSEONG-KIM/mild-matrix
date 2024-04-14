@@ -5,7 +5,7 @@ Mild matrix routines written in pure python routines.
 ## Background
 [Numpy](https://numpy.org/) is a wonderful library to provide various N-dimension array routines with hight speed and stability.
 However, what about for python projects requiring matrix routines but not a huge project? 
-Numpy is too heavy for those project, especially Linux version needs double space than Windows version.
+Numpy is too heavy for those project, especially, Linux version needs double space than Windows version.
 mild-matrix package is a simple matrix routine implmentations based on list type of python.
 
 ## Specification
